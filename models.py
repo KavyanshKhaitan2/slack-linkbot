@@ -1,16 +1,30 @@
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from datetime import UTC, datetime
+
+from sqlmodel import Field, Session, SQLModel, create_engine
+
+import settings
+
+
+def utcnow() -> datetime:
+    return datetime.now(UTC)
 
 
 # 1. Define the Model (Acts as both Pydantic schema and DB Table)
-class Hero(SQLModel, table=True):
+class PendingAccountLink(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    name: str = Field(index=True)
-    secret_name: str
-    age: int | None = None
+    created_at: datetime = Field(default_factory=utcnow)
+    parent_slack_id: str
+    token: str
+
+class AccountLink(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    created_at: datetime = Field(default_factory=utcnow)
+    parent_slack_id: str
+    child_slack_id: str
 
 # 2. Setup the DB Connection
-sqlite_url = "sqlite:///database.db"
-engine = create_engine(sqlite_url, echo=True)
+db_url = settings.DB_URL
+engine = create_engine(db_url, echo=True)
 
 # Create tables
 SQLModel.metadata.create_all(engine)
