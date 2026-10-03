@@ -4,8 +4,8 @@ Use this to check if they are an alt!
 
 ## Contents
 - [Usage](#usage)
-  1. [`/linkbot` command](#1.-`/linkbot`-command)
-  2. [`/check` endpoint](#2.-`/check`-endpoint)
+  1. [`/linkbot` command](#1-linkbot-command)
+  2. [`/check` endpoint](#2-check-endpoint)
 - [Setup & Deployment](#setup--deployment)
 
 ## Usage
