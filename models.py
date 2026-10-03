@@ -14,7 +14,7 @@ class PendingAccountLink(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     created_at: datetime = Field(default_factory=utcnow)
     parent_slack_id: str
-    token: str
+    token: str = Field(unique=True)
 
 class AccountLink(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
