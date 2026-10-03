@@ -1,8 +1,10 @@
+import utils
 import uvicorn
 from fastapi import FastAPI, Request
 from slack_bolt import App
 from slack_bolt.adapter.fastapi import SlackRequestHandler
-
+from sqlmodel import Session, select
+import models
 import settings
 
 prefix = settings.SLACK_COMMAND_PREFIX
@@ -20,27 +22,38 @@ api = FastAPI()
 # 1. Standard Slack Events endpoint
 @api.post("/slack/events")
 async def endpoint(req: Request):
-  return await handler.handle(req)
+    return await handler.handle(req)
 
 
 # 2. Your custom endpoint
 @api.get("/custom-route")
 def custom_endpoint():
-  return {"message": "This is a custom endpoint!"}
+    return {"message": "This is a custom endpoint!"}
 
 
 @app.message("hello")
 def handle_message(message, say):
-  say(f"Hi <@{message['user']}>!")
+    say(f"Hi <@{message['user']}>!")
+
 
 @app.command(f"/{prefix}linkbot")
 def linkbot(ack, respond, command):
     ack()
     user_id = command.get("user_id")
-    respond(str(command))
     text_args = command.get("text")
+    if not text_args:
+        with Session(models.engine) as session:
+            while True:
+                token = utils.generate_token()
+                existing = session.exec(
+                    select(models.PendingAccountLink).where(
+                        models.PendingAccountLink.token == token
+                    )
+                ).first()
+                if not existing:
+                    break
 
-    respond(f"Hello <@{user_id}>! You invoked me with arguments: {text_args}")
+        respond(f"Hi <@{user_id}>!\n\nRun this command on your alt to link it:\n\n```{command['command']} {token}```")
 
 
 if __name__ == "__main__":

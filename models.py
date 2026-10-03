@@ -30,9 +30,9 @@ engine = create_engine(db_url, echo=True)
 SQLModel.metadata.create_all(engine)
 
 # 3. Use inside a Database Session
-with Session(engine) as session:
-    new_hero = Hero(name="Deadpond", secret_name="Dive Wilson")
-    session.add(new_hero)
-    session.commit()
-    session.refresh(new_hero)
-    print(f"Created hero: {new_hero.name} with ID {new_hero.id}")
+# with Session(engine) as session:
+#     new_hero = Hero(name="Deadpond", secret_name="Dive Wilson")
+#     session.add(new_hero)
+#     session.commit()
+#     session.refresh(new_hero)
+#    print(f"Created hero: {new_hero.name} with ID {new_hero.id}")
