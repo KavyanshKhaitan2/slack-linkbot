@@ -23,10 +23,6 @@ RUN mkdir -p /tmp/uv-cache /tmp/.cache \
  && chown -R 999:999 /tmp/uv-cache /tmp/.cache
 RUN  chown -R 999:999 /app
 
-RUN uv run manage.py tailwind install \
- && uv run manage.py tailwind build \
- && uv run manage.py collectstatic --noinput
-
 
 ### Deployment ###
 
