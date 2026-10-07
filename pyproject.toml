@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.142.2",
-    "psycopg-binary>=3.3.6",
+    "psycopg2-binary>=2.9.13",
     "python-dotenv>=1.2.4",
     "requests>=2.34.2",
     "slack-bolt>=1.30.0",
