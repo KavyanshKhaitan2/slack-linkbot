@@ -1,3 +1,4 @@
+from fastapi.responses import RedirectResponse
 import uvicorn
 from fastapi import FastAPI, Request
 from slack_bolt import App
@@ -25,6 +26,9 @@ api = FastAPI()
 async def endpoint(req: Request):
     return await handler.handle(req)
 
+@api.get("/")
+def redirect_to_github():
+    return RedirectResponse("https://github.com/KavyanshKhaitan2/slack-linkbot")
 
 # 2. Your custom endpoint
 @api.get("/check")
