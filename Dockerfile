@@ -29,4 +29,4 @@ RUN  chown -R 999:999 /app
 EXPOSE 8000
 USER 999:999
 
-CMD ["uv", "run", "uvicorn", "main:app"]
+CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
